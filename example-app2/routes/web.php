@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SignupController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 
 /*
@@ -26,3 +29,9 @@ Route::resource('users', UserController::class);
 Route::resource('main', MainController::class);
 
 Route::resource('login', LoginController::class);
+
+Route::resource('signup', SignupController::class);
+
+Route::resource('cart', CartController::class);
+
+Route::resource('admin', AdminController::class);
