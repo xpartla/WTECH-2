@@ -1,13 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\MainController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SignupController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\SignupController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\AboutController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,18 +22,34 @@ use App\Http\Controllers\AdminController;
 |
 */
 
+//Route::resource('admin', AdminController::class);
+Route::resource('cart', CartController::class);
+Route::resource('login2', LoginController::class);
+Route::resource('main', MainController::class);
+Route::resource('signup2', SignupController::class);
+Route::resource('products', ProductsController::class);
+Route::resource('item', ItemController::class);
+Route::resource('about', AboutController::class);
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('users', UserController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('main', MainController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::resource('login', LoginController::class);
+// Define routes accessible only to admin users
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('admin', AdminController::class);
+});
 
-Route::resource('signup', SignupController::class);
-
-Route::resource('cart', CartController::class);
-
-Route::resource('admin', AdminController::class);
+require __DIR__.'/auth.php';

@@ -5,6 +5,9 @@
     <title>Login</title>
 </head>
 <body>
+<!-- Session Status -->
+<x-auth-session-status class="mb-4" :status="session('status')" />
+
 
     @include('login.login-nav')
 

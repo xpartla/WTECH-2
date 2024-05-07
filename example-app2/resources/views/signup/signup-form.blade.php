@@ -2,36 +2,27 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 user_card_modified">
-                <form>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="First Name">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                            </div>
-                        </div>
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required autofocus autocomplete="name">
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
                     <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Username">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required autocomplete="username">
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password">
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required autocomplete="new-password">
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -45,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-primary float-right">Sign Up</button>
+                            <button type="submit" class="btn btn-primary float-right">{{ __('Register') }}</button>
                         </div>
                     </div>
                 </form>
@@ -54,7 +45,7 @@
                         <p class="d-inline accountText"> Already have an account?</p>
                     </div>
                     <div class="col-md-6">
-                        <a type="submit" role="button" href="login.html" class="btn btn-secondary">Go to Login page</a>
+                        <a type="button" role="button" href="{{ route('login') }}" class="btn btn-secondary">Go to Login page</a>
                     </div>
                 </div>
                 <div class="row justify-content-center">

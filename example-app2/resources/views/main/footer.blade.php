@@ -10,13 +10,13 @@
                         <a class="text-white" href="#">© 2024 Copyright: Style Harbor</a>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <a href="about.html" class="text-white">O nás</a>
+                        <a href="{{ route('about.index') }}" class="text-white">O nás</a>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <a href="about.html" class="text-white">Obchodné podmienky</a>
+                        <a href="{{ route('about.index') }}" class="text-white">Obchodné podmienky</a>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <a href="admin.html" class="text-white">Admin</a>
+                        <a href="{{ route('admin.index') }}" class="text-white">Admin</a>
                     </div>
                 </div>
             </div>
