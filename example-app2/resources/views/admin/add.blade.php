@@ -1,38 +1,37 @@
 <div class="col-md-6 user_card_modified mb-3" id="add_prod">
-    <form>
+    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
         <div class="row">
             <h2 class="text-center text-white">Pridanie produktu</h2>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="productID">ID produktu</label>
-                    <input type="text" class="form-control" id="productID" placeholder="ID Produktu">
+                    <label for="name">Meno Produktu</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="productName">Meno Produktu</label>
-                    <input type="text" class="form-control" id="productName" placeholder="Meno Produktu">
+                    <label for="price">Cena</label>
+                    <input type="number" class="form-control" name="price" id="price" step="0.01" min="0" required>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="productVersion">Strih Produktu</label>
-                    <input type="text" class="form-control" id="productVersion" placeholder="Strih Produktu">
+                    <label for="image">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
                 </div>
             </div>
-            <div class="col-md-6">
+            <!--<div class="col-md-6">
                 <div class="form-group">
-                    <label for="productMaterial">Materiál Produktu</label>
-                    <input type="text" class="form-control" id="productMaterial" placeholder="Materiál Produktu">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" id="category" placeholder="Category">
                 </div>
-            </div>
+            </div>-->
         </div>
-
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -114,8 +113,8 @@
 
         <div class="row">
             <div class="form-group">
-                <label for="productDescription">Popis Produktu</label>
-                <textarea class="form-control" id="productDescription" placeholder="Popis Produktu"></textarea>
+                <label for="description">Popis Produktu</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
             </div>
         </div>
         <div class="row">

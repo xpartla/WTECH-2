@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
+
 
 class AdminController extends Controller
 {
@@ -28,7 +33,36 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        // Handle image upload, if provided
+        if ($request->hasFile('image')) {
+            $productImage = $request->file('image');
+            $productName = Str::slug($validatedData['name']); // Generate slug from product name
+
+            // Create directory if it doesn't exist
+            $directory = public_path('images/products/' . $productName);
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Store image in the product's directory
+            $imagePath = "images/products/$productName/{$productImage->getClientOriginalName()}";
+            Storage::disk('public')->put($imagePath, file_get_contents($productImage));
+            $validatedData['image'] = $imagePath;
+        }
+
+        // Create a new product record
+        Product::create($validatedData);
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Product created successfully.');
     }
 
     /**

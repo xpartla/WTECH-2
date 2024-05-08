@@ -52,4 +52,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admin', AdminController::class);
 });
 
+//creating products
+Route::post('/admin/products', [AdminController::class, 'store'])->name('admin.products.store');
+
+
 require __DIR__.'/auth.php';
