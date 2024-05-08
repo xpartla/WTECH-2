@@ -23,7 +23,8 @@ class AdminController extends Controller
         $categories = Category::all();
         $sizes = Size::all();
         $colors = Color::all();
-        return view('admin.index', compact('categories', 'sizes', 'colors'));
+        $products = Product::all();
+        return view('admin.index', compact('categories', 'sizes', 'colors', 'products'));
     }
 
     /**
@@ -113,8 +114,39 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        // Get the product name
+        $productName = $product->name;
+
+        // Delete product images directory
+        $productImagesDirectory = public_path('images/products/' . $productName);
+        if (file_exists($productImagesDirectory)) {
+            $this->deleteDirectory($productImagesDirectory);
+        }
+
+        // Delete the product
+        $product->delete();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Product deleted successfully.');
+    }
+
+    // Helper function to recursively delete a directory
+    private function deleteDirectory($directory)
+    {
+        if (!file_exists($directory)) {
+            return;
+        }
+
+        $files = array_diff(scandir($directory), ['.', '..']);
+        foreach ($files as $file) {
+            if (is_dir("$directory/$file")) {
+                $this->deleteDirectory("$directory/$file");
+            } else {
+                unlink("$directory/$file");
+            }
+        }
+        rmdir($directory);
     }
 }

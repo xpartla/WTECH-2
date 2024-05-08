@@ -53,7 +53,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 //creating products
+//Route::post('/admin/products', 'AdminController@store')->name('admin.products.store');
 Route::post('/admin/products', [AdminController::class, 'store'])->name('admin.products.store');
+//deleting products
+Route::delete('/admin/products/{product}', [AdminController::class, 'destroy'])->name('admin.products.destroy');
 
 
 require __DIR__.'/auth.php';

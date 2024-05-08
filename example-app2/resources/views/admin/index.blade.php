@@ -10,12 +10,10 @@
     <div class="container">
         <div class="row justify-content-center">
             @include('admin.add')
-
-            @include('admin.remove')
-
         </div>
     </div>
 </div>
+@include('admin.products')
 @include('main.footer')
 </body>
 </html>
