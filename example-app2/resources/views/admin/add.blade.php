@@ -25,88 +25,42 @@
                     <input type="file" class="form-control" id="image" name="image">
                 </div>
             </div>
-            <!--<div class="col-md-6">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="category">Category</label>
-                    <input type="text" class="form-control" id="category" placeholder="Category">
-                </div>
-            </div>-->
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Dostupné veľkosti</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="sizeXS" value="XS">
-                        <label class="form-check-label" for="sizeXS">XS</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="sizeS" value="S">
-                        <label class="form-check-label" for="sizeS">S</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="sizeM" value="M">
-                        <label class="form-check-label" for="sizeM">M</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="sizeL" value="L">
-                        <label class="form-check-label" for="sizeL">L</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="sizeXL" value="XL">
-                        <label class="form-check-label" for="sizeXL">XL</label>
-                    </div>
+                    <select class="form-control" id="category" name="category_id">
+                        <option value="">Select Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <!-- Product Sizes -->
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Dostupné Farby</label><br>
+                    <label for="sizes">Sizes</label><br>
+                    @foreach ($sizes as $size)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="size{{ $size->id }}" name="sizes[]" value="{{ $size->id }}">
+                            <label class="form-check-label" for="size{{ $size->id }}">{{ $size->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
 
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorBlack" value="Black">
-                        <label class="form-check-label" for="colorBlack">Čierna</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorWhite" value="White">
-                        <label class="form-check-label" for="colorWhite">Biela</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorGrey" value="Grey">
-                        <label class="form-check-label" for="colorGrey">Šedá</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorGreen" value="Green">
-                        <label class="form-check-label" for="colorGreen">Zelená</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorBlue" value="Blue">
-                        <label class="form-check-label" for="colorBlue">Modrá</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorOrange" value="Orange">
-                        <label class="form-check-label" for="colorOrange">Oranžová</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorBrown" value="Brown">
-                        <label class="form-check-label" for="colorBrown">Hnedá</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorRed" value="Red">
-                        <label class="form-check-label" for="colorRed">Červená</label>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="colorYellow" value="Yellow">
-                        <label class="form-check-label" for="colorYellow">Žltá</label>
-                    </div>
-
+            <!-- Product Colors -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="colors">Colors</label><br>
+                    @foreach ($colors as $color)
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="color{{ $color->id }}" name="colors[]" value="{{ $color->id }}">
+                            <label class="form-check-label" for="color{{ $color->id }}">{{ $color->name }}</label>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

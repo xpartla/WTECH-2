@@ -6,6 +6,10 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Category;
+use App\Models\Size;
+use App\Models\Color;
+
 
 
 
@@ -16,8 +20,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
-        //
+        $categories = Category::all();
+        $sizes = Size::all();
+        $colors = Color::all();
+        return view('admin.index', compact('categories', 'sizes', 'colors'));
     }
 
     /**
@@ -25,7 +31,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        //$categories = Category::all();
+        //return view('admin.index', compact('categories'));
     }
 
     /**
@@ -39,6 +46,7 @@ class AdminController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         // Handle image upload, if provided
@@ -53,13 +61,26 @@ class AdminController extends Controller
             }
 
             // Store image in the product's directory
+            $imageDirectory = "images/products/$productName";
             $imagePath = "images/products/$productName/{$productImage->getClientOriginalName()}";
             Storage::disk('public')->put($imagePath, file_get_contents($productImage));
-            $validatedData['image'] = $imagePath;
+            $validatedData['image'] = $imageDirectory;
         }
 
         // Create a new product record
-        Product::create($validatedData);
+        $product = Product::create($validatedData);
+
+        $product->categories()->attach($request->category_id);
+
+        // Attach the selected sizes to the product
+        if ($request->has('sizes')) {
+            $product->sizes()->attach($request->sizes);
+        }
+
+        // Attach the selected colors to the product
+        if ($request->has('colors')) {
+            $product->colors()->attach($request->colors);
+        }
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product created successfully.');
