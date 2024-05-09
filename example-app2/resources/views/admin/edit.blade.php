@@ -14,23 +14,15 @@
                     @csrf
                     @method('PUT')
                     <div class="row">
-                        <h2 class="text-center text-white">Editing produktu</h2>
+                        <h2 class="text-center text-white">Editing {{ $product->name }}</h2>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name">Meno Produktu</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}" required>
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="price">Cena</label>
                                 <input type="number" class="form-control" name="price" id="price" step="0.01" min="0" value="{{ $product->price }}" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="category">Category</label>
