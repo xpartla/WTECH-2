@@ -98,9 +98,12 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        $sizes = Size::all();
+        $colors = Color::all();
+        return view('admin.edit', compact('product', 'categories', 'sizes', 'colors'));
     }
 
     /**
@@ -108,7 +111,78 @@ class AdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Find the product by its ID
+        $product = Product::findOrFail($id);
+        // Get the product name
+        $productName = Str::slug($product->name); // Generate slug from product name
+
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        // Handle image upload, if provided
+        if ($request->hasFile('image')) {
+            $productImage = $request->file('image');
+
+            // Create directory if it doesn't exist
+            $directory = public_path('images/products/' . $productName);
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Store image in the product's directory
+            $imageDirectory = "images/products/$productName";
+            $imagePath = "images/products/$productName/{$productImage->getClientOriginalName()}";
+            Storage::disk('public')->put($imagePath, file_get_contents($productImage));
+            $validatedData['image'] = $imageDirectory;
+        }
+
+        // Update product details
+        $product->update($validatedData);
+
+        // Detach old sizes, categories, and colors
+        $product->sizes()->detach();
+        $product->categories()->detach();
+        $product->colors()->detach();
+
+        // Attach the newly selected sizes to the product
+        if ($request->has('sizes')) {
+            $product->sizes()->attach($request->sizes);
+        }
+
+        // Attach the newly selected categories to the product
+        $product->categories()->attach($request->category_id);
+
+        // Attach the newly selected colors to the product
+        if ($request->has('colors')) {
+            $product->colors()->attach($request->colors);
+        }
+
+        // Remove images if requested
+        if ($request->has('remove_images')) {
+            $imagesToRemove = $request->remove_images;
+            foreach ($imagesToRemove as $imageName) {
+                $imagePath = public_path($product->image . '/' . $imageName);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+        }
+
+        // Handle uploading of new images
+        if ($request->hasFile('new_images')) {
+            $newImages = $request->file('new_images');
+            foreach ($newImages as $newImage) {
+                $imagePath = $newImage->store('images/products/' . $productName, 'public');
+            }
+        }
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Product updated successfully.');
     }
 
     /**

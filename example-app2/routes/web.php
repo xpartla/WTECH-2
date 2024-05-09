@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::put('/admin/products/{product}', [AdminController::class, 'update'])->name('admin.products.update');
+
 // Define routes accessible only to admin users
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admin', AdminController::class);
@@ -57,6 +59,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::post('/admin/products', [AdminController::class, 'store'])->name('admin.products.store');
 //deleting products
 Route::delete('/admin/products/{product}', [AdminController::class, 'destroy'])->name('admin.products.destroy');
+
+//editing products
+Route::get('/admin/products/{product}/edit', [AdminController::class, 'edit'])->name('admin.products.edit');
 
 
 require __DIR__.'/auth.php';

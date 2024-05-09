@@ -320,3 +320,8 @@ body.index-body {
 #add_prod.user_card_modified {
     background: darkseagreen; /* Replace with your desired color */
 }
+
+.existing-image img {
+    max-width: 15%;
+    height: auto;
+}
