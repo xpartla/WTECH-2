@@ -66,4 +66,7 @@ Route::get('/admin/products/{product}/edit', [AdminController::class, 'edit'])->
 //item
 Route::get('/item/{id}', [ItemController::class, 'index'])->name('item.index');
 
+// pridavanie + odoberanie produktov z kosika
+Route::put('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+
 require __DIR__.'/auth.php';

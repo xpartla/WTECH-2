@@ -16,4 +16,8 @@ class CartProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function getCountAttribute()
+    {
+        return $this->cart->cartProducts->where('product_id', $this->product_id)->count();
+    }
 }

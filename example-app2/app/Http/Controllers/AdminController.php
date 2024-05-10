@@ -55,6 +55,8 @@ class AdminController extends Controller
             'gender' => 'required|in:male,female,kids',
         ]);
 
+        $validatedData['gender'] = $request->input('gender');
+
         // Handle image upload, if provided
         if ($request->hasFile('image')) {
             $productImage = $request->file('image');
@@ -92,7 +94,7 @@ class AdminController extends Controller
             $product->colors()->attach($request->colors);
         }
 
-        $product->update(['gender' => $request->gender]);
+        //$product->update(['gender' => $request->gender]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product created successfully.');
@@ -138,6 +140,8 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'gender' => 'required|in:male,female,kids',
         ]);
+
+        $validatedData['gender'] = $request->input('gender');
 
         // Handle image upload, if provided
         if ($request->hasFile('image')) {
@@ -202,7 +206,7 @@ class AdminController extends Controller
             }
         }
 
-        $product->update(['gender' => $request->gender]);
+        //$product->update(['gender' => $request->gender]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product updated successfully.');

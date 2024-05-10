@@ -20,10 +20,6 @@
                 </div>
             </div>
             @include('cart.cart-item-1')
-
-            @include('cart.cart-item-2')
-
-            @include('cart.cart-item-3')
         </div>
 
         @include('cart.checkout')
