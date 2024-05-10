@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Size;
+use App\Models\Color;
 
 class ProductsController extends Controller
 {
@@ -11,9 +16,21 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('products.index');
-        //
+        $products = Product::with('colors', 'sizes', 'categories')->get();
+
+        // Fetch file paths for each product
+        $filePaths = [];
+        foreach ($products as $product) {
+            $folderPath = public_path($product->image);
+            $filePaths[$product->id] = $this->getAllFilePaths($folderPath);
+        }
+
+        // Convert the PHP array to a JSON string
+        $filePathsJson = json_encode($filePaths);
+
+        return view('products.index', compact('products', 'filePathsJson'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -62,4 +79,25 @@ class ProductsController extends Controller
     {
         //
     }
+
+    public function getAllFilePaths($folderPath): array
+    {
+        // Check if the directory exists
+        if (!\File::isDirectory($folderPath)) {
+            return [];
+        }
+
+        // Get all files in the directory
+        $files = \File::allFiles($folderPath);
+
+        // Iterate through the files and build an array of full paths
+        $filePaths = [];
+        foreach ($files as $file) {
+            $path = $folderPath . '/' . $file->getRelativePathname();
+            $filePaths[] = str_replace('\\', '/', $path);
+        }
+
+        return $filePaths;
+    }
+
 }

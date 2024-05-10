@@ -63,5 +63,7 @@ Route::delete('/admin/products/{product}', [AdminController::class, 'destroy'])-
 //editing products
 Route::get('/admin/products/{product}/edit', [AdminController::class, 'edit'])->name('admin.products.edit');
 
+//item
+Route::get('/item/{id}', [ItemController::class, 'index'])->name('item.index');
 
 require __DIR__.'/auth.php';

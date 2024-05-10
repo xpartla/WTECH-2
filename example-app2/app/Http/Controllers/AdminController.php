@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\Size;
 use App\Models\Color;
+use App\Models\Brand;
+use App\Models\Subcategory;
 
 
 
@@ -24,7 +26,9 @@ class AdminController extends Controller
         $sizes = Size::all();
         $colors = Color::all();
         $products = Product::all();
-        return view('admin.index', compact('categories', 'sizes', 'colors', 'products'));
+        $brands = Brand::all();
+        $subcategories = Subcategory::all();
+        return view('admin.index', compact('categories', 'sizes', 'colors', 'products', 'brands', 'subcategories'));
     }
 
     /**
@@ -48,6 +52,7 @@ class AdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
+            'gender' => 'required|in:male,female,kids',
         ]);
 
         // Handle image upload, if provided
@@ -73,6 +78,10 @@ class AdminController extends Controller
 
         $product->categories()->attach($request->category_id);
 
+        $product->subcategories()->attach($request->subcategory_id);
+
+        $product->brands()->attach($request->brand_id);
+
         // Attach the selected sizes to the product
         if ($request->has('sizes')) {
             $product->sizes()->attach($request->sizes);
@@ -82,6 +91,8 @@ class AdminController extends Controller
         if ($request->has('colors')) {
             $product->colors()->attach($request->colors);
         }
+
+        $product->update(['gender' => $request->gender]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product created successfully.');
@@ -103,7 +114,10 @@ class AdminController extends Controller
         $categories = Category::all();
         $sizes = Size::all();
         $colors = Color::all();
-        return view('admin.edit', compact('product', 'categories', 'sizes', 'colors'));
+        $brands = Brand::all();
+        $subcategories = Subcategory::all();
+        $genderOptions = ['male', 'female', 'kids'];
+        return view('admin.edit', compact('product', 'categories', 'sizes', 'colors', 'brands', 'subcategories', 'genderOptions'));
     }
 
     /**
@@ -122,6 +136,7 @@ class AdminController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
+            'gender' => 'required|in:male,female,kids',
         ]);
 
         // Handle image upload, if provided
@@ -148,6 +163,8 @@ class AdminController extends Controller
         $product->sizes()->detach();
         $product->categories()->detach();
         $product->colors()->detach();
+        $product->subcategories()->detach();
+        $product->brands()->detach();
 
         // Attach the newly selected sizes to the product
         if ($request->has('sizes')) {
@@ -156,6 +173,10 @@ class AdminController extends Controller
 
         // Attach the newly selected categories to the product
         $product->categories()->attach($request->category_id);
+
+        $product->subcategories()->attach($request->subcategory_id);
+
+        $product->brands()->attach($request->brand_id);
 
         // Attach the newly selected colors to the product
         if ($request->has('colors')) {
@@ -180,6 +201,8 @@ class AdminController extends Controller
                 $imagePath = $newImage->store('images/products/' . $productName, 'public');
             }
         }
+
+        $product->update(['gender' => $request->gender]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product updated successfully.');

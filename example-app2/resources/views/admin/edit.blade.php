@@ -25,24 +25,47 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="category">Category</label>
-                                <select class="form-control" id="category" name="category_id">
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" @if($product->category_id == $category->id) selected @endif>{{ $category->name }}</option>
+                                <label for="brand">Brand</label>
+                                <select class="form-control" id="brand" name="brand_id">
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select class="form-control" id="category" name="category_id[]" multiple>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="subcategory">Subcategory</label>
+                                <select class="form-control" id="subcategory" name="subcategory_id[]" multiple>
+                                    @foreach ($subcategories as $subcategory)
+                                        <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <!-- Product Sizes -->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="sizes">Sizes</label><br>
                                 @foreach ($sizes as $size)
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="size{{ $size->id }}" name="sizes[]" value="{{ $size->id }}" @if($product->sizes->contains($size->id)) checked @endif>
+                                        <input class="form-check-input" type="checkbox" id="size{{ $size->id }}" name="sizes[]" value="{{ $size->id }}">
                                         <label class="form-check-label" for="size{{ $size->id }}">{{ $size->name }}</label>
                                     </div>
                                 @endforeach
@@ -50,13 +73,25 @@
                         </div>
 
                         <!-- Product Colors -->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="colors">Colors</label><br>
                                 @foreach ($colors as $color)
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="color{{ $color->id }}" name="colors[]" value="{{ $color->id }}" @if($product->colors->contains($color->id)) checked @endif>
+                                        <input class="form-check-input" type="checkbox" id="color{{ $color->id }}" name="colors[]" value="{{ $color->id }}">
                                         <label class="form-check-label" for="color{{ $color->id }}">{{ $color->name }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gender">Gender</label><br>
+                                @foreach ($genderOptions as $option)
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" id="{{ $option }}" name="gender" value="{{ $option }}" {{ $product->gender == $option ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="{{ $option }}">{{ ucfirst($option) }}</label>
                                     </div>
                                 @endforeach
                             </div>
@@ -74,17 +109,21 @@
                         <div class="col">
                             <label for="existing-images">Existing Images</label>
                             <div id="existing-images">
-                                @php
-                                    $productImagesPath = public_path($product->image);
-                                    $productImages = glob("$productImagesPath/*");
-                                @endphp
-                                @foreach ($productImages as $imagePath)
-                                    <div class="existing-image">
-                                        <img src="{{ str_replace(public_path(), '', $imagePath) }}" alt="Product Image" class="img-fluid existing-image">
-                                        <input type="checkbox" name="remove_images[]" value="{{ basename($imagePath) }}">
-                                        <label for="remove_images[]">Remove</label>
-                                    </div>
-                                @endforeach
+                                @if ($product->image)
+                                    @php
+                                        $productImagesPath = public_path($product->image);
+                                        $productImages = glob("$productImagesPath/*");
+                                    @endphp
+                                    @foreach ($productImages as $imagePath)
+                                        <div class="existing-image">
+                                            <img src="{{ str_replace(public_path(), '', $imagePath) }}" alt="Product Image" class="img-fluid existing-image">
+                                            <input type="checkbox" name="remove_images[]" value="{{ basename($imagePath) }}">
+                                            <label for="remove_images[]">Remove</label>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p>No existing images.</p>
+                                @endif
                             </div>
                         </div>
                     </div>

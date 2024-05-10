@@ -21,25 +21,48 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control" id="image" name="image">
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
                     <label for="category">Category</label>
-                    <select class="form-control" id="category" name="category_id">
-                        <option value="">Select Category</option>
+                    <select class="form-control" id="category" name="category_id[]" multiple>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="subcategory">Subcategory</label>
+                    <select class="form-control" id="subcategory" name="subcategory_id[]" multiple>
+                        @foreach ($subcategories as $subcategory)
+                            <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <select class="form-control" id="brand" name="brand_id">
+                        @foreach ($brands as $brand)
+                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <!-- Product Sizes -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="sizes">Sizes</label><br>
                     @foreach ($sizes as $size)
@@ -52,7 +75,7 @@
             </div>
 
             <!-- Product Colors -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="colors">Colors</label><br>
                     @foreach ($colors as $color)
@@ -61,6 +84,24 @@
                             <label class="form-check-label" for="color{{ $color->id }}">{{ $color->name }}</label>
                         </div>
                     @endforeach
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="gender">Gender</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="male" name="gender" value="male">
+                        <label class="form-check-label" for="male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="female" name="gender" value="female">
+                        <label class="form-check-label" for="female">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="kids" name="gender" value="kids">
+                        <label class="form-check-label" for="kids">Kids</label>
+                    </div>
                 </div>
             </div>
         </div>

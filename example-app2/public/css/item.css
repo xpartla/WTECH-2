@@ -1,0 +1,363 @@
+body {
+    font-family: Roboto, sans-serif ;
+    font-size: 16px;
+}
+
+footer{
+    font-size: 12px;
+    bottom: 0;
+    width: 100%;
+    background-color: lightblue;
+    z-index: 1000;
+    display: block;
+}
+#myVideo1 {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.customNavSize {
+    height: 35px;
+}
+#navName {
+    font-family: "Roboto Black", sans-serif ;
+    font-size: 22px;
+    color: goldenrod;
+    padding-top: 2vh;
+}
+.navbar-brand {
+    font-size: 24px;
+}
+.navIconColor{
+    color: #4F535C;
+}
+
+.centered-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.container {
+    padding: 20px;
+}
+
+.centered-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.form-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 18px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: #D8F665;
+    color: dimgrey;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #b8db34;
+}
+
+.btn-secondary {
+    display: block;
+    align-self: center;
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 2vh;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: #F35E35;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #F68465;
+    color: black;
+}
+
+.loginSubText {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+.user_card {
+    background: #f6cc65;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+}
+
+.user_card_modified {
+    background: #f6cc65;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.user_card_modified .form-group {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.user_card_modified label {
+    font-size: 12px;
+}
+
+.user_card_modified input[type="text"],
+.user_card_modified input[type="email"],
+.user_card_modified input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.user_card_modified .btn-primary {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.user_card_modified .btn-secondary {
+    padding: 8px 16px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.user_card_modified .loginSubText {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 18px;
+}
+
+.accountText{
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+
+.title_text{
+    font-family: "Roboto Thin";
+    font-size: 60px;
+    text-align: center;
+    color: goldenrod;
+    font-weight: bolder;
+    font-variant-caps: petite-caps;
+}
+
+.cart_images{
+    min-height: 70px;
+    min-width: 70px;
+}
+
+.cart_text{
+    font-family: "Roboto Thin";
+}
+
+.cart_mainText{
+    color: goldenrod;
+    font-family: "Roboto Black";
+
+}
+.cart_secondaryText{
+    color: #4F535C;
+    font-family: "Roboto Black";
+}
+
+.main_container {
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    height: 70vh;
+    border-radius: 20px;
+}
+
+.content {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    position: relative;
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.content h1 {
+    opacity: 1;
+}
+
+.index_link{
+    text-decoration: none;
+    color: inherit;
+    font-weight: inherit;
+    border-radius: 10px;
+    background-color: rgba(246, 204, 101, 0.7);
+
+}
+
+.index_link:hover{
+    background-color: #F35E35;
+}
+
+body.index-body {
+    background-image: url('src/index_bg.jpg');
+    background-size: cover;
+}
+
+.circle {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid black;
+}
+
+.colors {
+    display: none;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.checkOLD {
+    border: solid black;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    font-size: 30px;
+    background-color: white;
+    color: black;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.checkNEW {
+    border: solid black;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    font-size: 30px;
+    background-color: black;
+    color: white;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.sizes {
+    display: flex;
+}
+
+.button {
+    background-color: #ffe288;
+    border-radius: 10px;
+    font-size: 30px;
+    padding: 15px;
+}
+
+.parent {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.firstchild {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 30px;
+    display: block;
+    max-width: 500px
+}
+
+.secondchild {
+    margin-top: 10px;
+    min-width: 311px;
+}
+.block {
+    display: flex;
+    margin-top: 10px;
+}
+
+#whiteheart {
+    display: block;
+}
+
+#blackheart {
+    display: none;
+}
+
+@media (max-width: 750px) {
+    .parent {
+        display: block;
+        margin-bottom: 20px;
+    }
+    .firstchild {
+        text-align: center;
+        margin-bottom: 20px;
+        margin-left: 15%;
+        margin-right: 15%;
+    }
+    .secondchild {
+        text-align: center;
+    }
+    .centering {
+        text-align: center;
+    }
+    .justify {
+        justify-content: center;
+    }
+    .block {
+        display: block;
+    }
+    .sizes{
+        display: flex;
+        justify-content: center;
+    }
+}

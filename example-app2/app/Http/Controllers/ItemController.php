@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -11,8 +12,18 @@ class ItemController extends Controller
      */
     public function index()
     {
+        // Return a view that displays a list of items
         return view('item.index');
-        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        // Return the view that displays the specific item identified by $id
+        $product = Product::with('colors', 'sizes', 'categories')->find($id);
+        return view('item.index', compact('product'));
     }
 
     /**
@@ -27,14 +38,6 @@ class ItemController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
     {
         //
     }
