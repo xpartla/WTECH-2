@@ -1,20 +1,15 @@
 <html lang="en">
 <head>
-    @include('item.head')
+    @include('main.head')
     <title>Home</title>
-    @include('item.logic')
 </head>
-
 <body class="index-body">
 
 @include('main.nav')
 
-@include('main.title')
-
-@include('item.product')
-
-@include('item.image')
+@include('orders.content')
 
 @include('main.footer')
+
 </body>
 </html>

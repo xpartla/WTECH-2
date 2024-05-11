@@ -101,7 +101,7 @@ function paginate(pages) {
         if (pagination_check === 0 && page === 1) {
             productCard.classList.add('pagination');
         }
-        else if (page === pagination_check ) {
+        else if (page === pagination_check) {
             productCard.classList.add('pagination');
         }
         else
@@ -117,6 +117,9 @@ function filterProducts() {
     const brands = document.getElementsByClassName('brandNEW');
     const colors = document.getElementsByClassName('selected');
     const sizes = document.getElementsByClassName('checkNEW');
+    let gender = document.getElementsByClassName('spaced_headings marked')[0].textContent;
+    let category = document.getElementsByClassName('spaced_categories marked')[0].textContent;
+    let subcategory = document.getElementsByClassName('spaced_subcategories marked')[0].textContent;
     let sortOption = document.getElementById('sort').textContent;
     let userinput = document.getElementById('search');
     let filteredProducts = products;
@@ -174,6 +177,43 @@ function filterProducts() {
         return (product.price >= minPrice && product.price <= maxPrice);
     });
 
+    //gender
+    let tmp_gender =""
+    filteredProducts = filteredProducts.filter(product => {
+        if (product.gender === "male")  tmp_gender = "Muži"
+        else if (product.gender === "female")  tmp_gender = "Ženy"
+        else if (product.gender === "kids") tmp_gender = "Deti"
+        return (tmp_gender === gender);
+    });
+
+    //category
+    filteredProducts = filteredProducts.filter(product => {
+        let tmp_category = '';
+        @foreach($products as $product)
+            if (Number({{ $product['id'] }}) === Number(product.id)){
+                @foreach($product->categories as $category)
+                    tmp_category = ('{{ $category->name }}')
+                @endforeach
+            }
+        @endforeach
+        return (category === tmp_category);
+    });
+
+    //subcategory
+    filteredProducts = filteredProducts.filter(product => {
+        let tmp_subcategory = [];
+        @foreach($products as $product)
+        if (Number({{ $product['id'] }}) === Number(product.id)){
+            @foreach($product->subcategories as $subcategory)
+                tmp_subcategory.push('{{ $subcategory->name }}')
+            @endforeach
+        }
+        @endforeach
+        console.log(tmp_subcategory + ' = ' + subcategory + ' --> ' + tmp_subcategory.includes(subcategory))
+        return (tmp_subcategory.includes(subcategory));
+    });
+
+
     //sort
     sortOption = (sortOption.split(' ')).splice(0,2).join(' ')
     switch (sortOption) {
@@ -205,8 +245,6 @@ function filterProducts() {
     let x = (multiplier * 6)-6;
     let y = (multiplier*6);
     filteredProducts = filteredProducts.slice(x,y);
-
-
 
     // Render filtered products
     renderProducts(filteredProducts);
@@ -271,13 +309,11 @@ function changeBrand(clickedDiv) {
 function select_highlighted(chosen, category) {
     let all_elms = document.getElementsByClassName(category);
     Array.prototype.forEach.call(all_elms, function (el) {
-        el.style.textDecoration = 'none';
-        el.style.fontWeight = 'normal';
-        el.style.color = '#808080';
+        if (el.classList.contains("marked"))
+            el.classList.remove("marked")
     });
-    chosen.style.textDecoration = 'underline';
-    chosen.style.fontWeight = 'bold';
-    chosen.style.color = 'black';
+    chosen.classList.add("marked");
+    filterProducts();
 }
 
 function selectOption(option) {

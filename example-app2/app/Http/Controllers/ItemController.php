@@ -23,7 +23,16 @@ class ItemController extends Controller
     {
         // Return the view that displays the specific item identified by $id
         $product = Product::with('colors', 'sizes', 'categories')->find($id);
-        return view('item.index', compact('product'));
+
+        // Fetch file paths for each product
+        $filePaths = [];
+        $folderPath = public_path($product->image);
+        $filePaths[$product->id] = $this->getAllFilePaths($folderPath);
+
+        // Convert the PHP array to a JSON string
+        $filePathsJson = json_encode($filePaths);
+
+        return view('item.index', compact('product', 'filePathsJson'));
     }
 
     /**
@@ -65,4 +74,25 @@ class ItemController extends Controller
     {
         //
     }
+
+    public function getAllFilePaths($folderPath): array
+    {
+        // Check if the directory exists
+        if (!\File::isDirectory($folderPath)) {
+            return [];
+        }
+
+        // Get all files in the directory
+        $files = \File::allFiles($folderPath);
+
+        // Iterate through the files and build an array of full paths
+        $filePaths = [];
+        foreach ($files as $file) {
+            $path = $folderPath . '/' . $file->getRelativePathname();
+            $filePaths[] = str_replace('\\', '/', $path);
+        }
+
+        return $filePaths;
+    }
+
 }

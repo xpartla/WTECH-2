@@ -44,8 +44,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control" id="image" name="image">
+                    <label for="new-images">Add New Images</label>
+                    <input type="file" class="form-control" id="new-images" name="images[]" multiple>
                 </div>
             </div>
             <div class="col-md-6">

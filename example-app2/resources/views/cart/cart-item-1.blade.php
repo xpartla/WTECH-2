@@ -1,3 +1,7 @@
+@php
+    $totalPrice = 0;
+@endphp
+
 @foreach ($groupedProducts as $product)
     <div class="row pt-3 bg-body-tertiary rounded-5 m-3 position-relative">
         <div class="col-lg-2 col-md-4 col-sm-4">
@@ -44,5 +48,8 @@
         <div class="col text-end">
             <p>Cena: {{ $product->product->totalPrice }} €</p>
         </div>
-</div>
+    </div>
+    @php
+        $totalPrice += $product->product->totalPrice;
+    @endphp
 @endforeach

@@ -4,17 +4,12 @@
             <i class="fa-solid fa-house navIconColor"></i>
         </a>
         <ul class="navbar-nav ms-auto d-flex flex-row">
-            <li class="nav-item me-3">
-                <a class="nav-link" href="#">
-                    <span><i class="fa-solid fa-heart"></i></span>
-                </a>
-            </li>
             @guest
                 <li class="nav-item me-3">
-                    <a class="nav-link" href="{{ route('register') }}" >Signup</a>
+                    <a class="nav-link" href="{{ route('register') }}" >Registrácia</a>
                 </li>
                 <li class="nav-item me-3">
-                    <a class="nav-link" href="{{ route('login') }}" >Login</a>
+                    <a class="nav-link" href="{{ route('login') }}" >Prihlásenie</a>
                 </li>
             @else
                 <li class="nav-item dropdown" id="navAll">
@@ -25,18 +20,28 @@
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="dropdown-item" style="background-color: red; color: white;">Logout</button>
+                                <button type="submit" class="dropdown-item btn btn-danger">Odhlásiť</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('orders.index') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item btn btn-info">Objednávky</button>
                             </form>
                         </li>
                     </ul>
                 </li>
             @endguest
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('cart.index') }}">
-                    <span class="badge badge-pill bg-danger">0</span>
-                    <span><i class="fas fa-shopping-cart"></i></span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cart.index') }}">
+                        @auth
+                            @if(auth()->user()->cart)
+                                <span class="badge badge-pill bg-danger">{{ auth()->user()->cart->cartProducts->count() }}</span>
+                            @endif
+                        @endauth
+                        <span><i class="fas fa-shopping-cart"></i></span>
+                    </a>
+                </li>
         </ul>
     </div>
 </nav>

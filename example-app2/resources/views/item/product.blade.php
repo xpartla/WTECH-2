@@ -1,13 +1,11 @@
 <div class="parent">
     <div class="firstchild">
         <div class="centering" style="display: flex;">
-            <img src="{{URL::asset('images/products/black_shirt.jpg')}}" alt="picture" height="auto" width="100%">
-            <img src="{{URL::asset('images/white_heart.png')}}" id="whiteheart" onmouseover="add_favourite(false)" onmouseout="add_favourite(false)" onclick="add_favourite(true)" alt="heart" height="40" width="40" style="margin-left: -50px; margin-top: 5px;">
-            <img src="{{URL::asset('images/black_heart.png')}}" id="blackheart" onmouseover="add_favourite(false)" onmouseout="add_favourite(false)" onclick="add_favourite(true)" alt="heart" height="40" width="40" style="margin-left: -50px; margin-top: 5px;">
+            <img src="" id ="the_picture" alt="picture" height="auto" width="100%">
         </div>
         <div class="centering" style="background-color: white; padding-bottom: 10px; display: flex; width: 100%; text-align: center;">
 
-            <div style="width: 33.33%; background-color: #ffdc68; margin-left: 5%; text-align: center; padding-top: 5px; border-radius: 10px">
+            <div id="leftarrow" style="width: 33.33%; background-color: #ffdc68; margin-left: 5%; text-align: center; padding-top: 5px; border-radius: 10px">
                 <h6 style="transform: rotate(180deg); cursor: pointer; padding: 0;">&#10148</h6>
             </div>
             <div style="width: 33.33%; text-align: center;">
@@ -15,7 +13,7 @@
                 <span class="dot"></span>
                 <span class="dot"></span>
             </div>
-            <div style="width: 33.33%; background-color: #ffdc68; margin-right: 5%; text-align: center; padding-top: 5px; border-radius: 10px;">
+            <div id="rightarrow" style="width: 33.33%; background-color: #ffdc68; margin-right: 5%; text-align: center; padding-top: 5px; border-radius: 10px;">
                 <h6 style="cursor: pointer; padding: 0;">&#10148</h6>
             </div>
 
@@ -23,8 +21,11 @@
     </div>
     <div class="secondchild">
         <div class="justify" style="display: flex; gap: 20px;">
-            <div style="width: 90px; height: 50px; border: 1px solid black; background-color: white">
-                <img src="{{URL::asset('images/logo/nike.png')}}" alt="picture" height="auto" width="100%" style="padding-top: 5px;">
+            <div style="width: 90px; height: 50px;">
+                <img src="" id ="the_logo" alt="picture" height="auto" width="100%" style="padding-top: 5px;">
+                <script type="text/javascript">
+                    document.getElementById("the_logo").src = '/images/logo/' + '{{$product->brands}}'.split('&quot;:&quot;')[1].split("&")[0] + '.png';
+                </script>
             </div>
             <div>
                 <h1>{{ $product['name'] }}</h1>

@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use App\Models\Product;
-use App\Models\Category;
-use App\Models\Size;
-use App\Models\Color;
+use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
@@ -16,7 +12,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::with('colors', 'sizes', 'categories')->get();
+        $products = Product::with('colors', 'sizes', 'categories', 'subcategories', 'brands')->get();
 
         // Fetch file paths for each product
         $filePaths = [];

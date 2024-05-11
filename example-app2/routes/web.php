@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
@@ -30,6 +31,8 @@ Route::resource('signup2', SignupController::class);
 Route::resource('products', ProductsController::class);
 Route::resource('item', ItemController::class);
 Route::resource('about', AboutController::class);
+Route::resource('orders', OrderController::class);
+
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
@@ -68,5 +71,10 @@ Route::get('/item/{id}', [ItemController::class, 'index'])->name('item.index');
 
 // pridavanie + odoberanie produktov z kosika
 Route::put('/cart/{id}', [CartController::class, 'update'])->name('cart.update');
+
+// checkout
+Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+
+//orders
 
 require __DIR__.'/auth.php';

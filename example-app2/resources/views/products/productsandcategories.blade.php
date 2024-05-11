@@ -2,16 +2,10 @@
     <div class="leftmenu">
         <div class="subsubcategories">
             <div class="mobilesubcategory">
-                <h5 class="spaced_subcategories" style="font-weight: bold; text-decoration: underline; color: black;" onclick="select_highlighted(this, 'spaced_subcategories')">Novinky</h5>
-                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Obľúbené</h5>
-            </div>
-            <div class="mobilesubcategory">
-                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Výpredaj</h5>
-                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Tenisky</h5>
-            </div>
-            <div class="mobilesubcategory">
-                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Čižmy</h5>
-                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Sandále</h5>
+                <h5 class="spaced_subcategories marked" onclick="select_highlighted(this, 'spaced_subcategories')">Jar</h5>
+                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Leto</h5>
+                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Jeseň</h5>
+                <h5 class="spaced_subcategories" onclick="select_highlighted(this, 'spaced_subcategories')">Zima</h5>
             </div>
         </div>
 

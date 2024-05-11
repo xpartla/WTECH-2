@@ -1,4 +1,4 @@
-<footer class="text-center text-sm-center text-white position-sticky" style="background-color: lightgrey">
+<footer class="text-center text-sm-center text-white position-sticky" style="margin-top:50px; background-color: lightgrey">
     <div class="container pb-2">
         <div class="col">
             <button class="btn btn-link text-white d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContent" aria-expanded="false" aria-controls="collapseContent">

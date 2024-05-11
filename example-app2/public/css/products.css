@@ -344,6 +344,12 @@ body.index-body {
     margin-left: 2px;
 }
 
+.marked {
+    text-decoration: underline;
+    font-weight: bold;
+    color: black;
+}
+
 .arrowpadding {
     margin-top: 2px;
     margin-right: 2px;
@@ -458,8 +464,6 @@ body.index-body {
     background-color: #f1f1f1;
 }
 
-
-
 .leftmenu {
     width: 25%;
 }
@@ -469,6 +473,12 @@ body.index-body {
 }
 
 .pagination {
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.unselected_pages {
     color: #808080;
     cursor: pointer;
 }
@@ -478,7 +488,7 @@ body.index-body {
 }
 
 .mobilesubcategory {
-    display: block;
+    display: flex;
 }
 
 .mobilefilters {
@@ -542,12 +552,10 @@ body.index-body {
     .spaced_categories {
         font-size: 15px;
     }
-    .spaced_headings {
-        font-size: 15px;
-    }
     .spaced_subcategories {
         font-size: 15px;
     }
+
     .filtertexts {
         font-size: 15px;
     }
@@ -672,9 +680,6 @@ body.index-body {
 }
 
 @media (max-width: 430px) {
-    .mobilesubcategory {
-        display: block;
-    }
     .mobilecategory {
         display: block;
         text-align: left;

@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
     @include('main.head')
@@ -11,9 +10,9 @@
 
 @include('main.title')
 
-@include('products.categories')
+@include('products.gender')
 
-@include('products.subcategories')
+@include('products.the_category')
 
 @include('products.productsandcategories')
 

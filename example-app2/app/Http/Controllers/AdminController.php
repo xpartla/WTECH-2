@@ -49,7 +49,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Allow multiple images
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'gender' => 'required|in:male,female,kids',
@@ -57,23 +57,25 @@ class AdminController extends Controller
 
         $validatedData['gender'] = $request->input('gender');
 
-        // Handle image upload, if provided
-        if ($request->hasFile('image')) {
-            $productImage = $request->file('image');
-            $productName = Str::slug($validatedData['name']); // Generate slug from product name
-
-            // Create directory if it doesn't exist
-            $directory = public_path('images/products/' . $productName);
-            if (!file_exists($directory)) {
-                mkdir($directory, 0777, true);
-            }
-
-            // Store image in the product's directory
-            $imageDirectory = "images/products/$productName";
-            $imagePath = "images/products/$productName/{$productImage->getClientOriginalName()}";
-            Storage::disk('public')->put($imagePath, file_get_contents($productImage));
-            $validatedData['image'] = $imageDirectory;
+        // Create directory if it doesn't exist
+        $productName = Str::slug($validatedData['name']); // Generate slug from product name
+        $directory = public_path("images/products/$productName");
+        if (!file_exists($directory)) {
+            mkdir($directory, 0777, true);
         }
+
+        // Handle image upload, if provided
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = $image->getClientOriginalName();
+                $imagePath = "images/products/$productName/$imageName"; // Path relative to public directory
+                $image->move(public_path("images/products/$productName"), $imageName); // Move image to public directory
+                $imagePaths[] = $imagePath;
+            }
+        }
+
+        $validatedData['images'] = $imagePaths;
 
         // Create a new product record
         $product = Product::create($validatedData);
@@ -94,11 +96,11 @@ class AdminController extends Controller
             $product->colors()->attach($request->colors);
         }
 
-        //$product->update(['gender' => $request->gender]);
-
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product created successfully.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -143,21 +145,20 @@ class AdminController extends Controller
 
         $validatedData['gender'] = $request->input('gender');
 
-        // Handle image upload, if provided
-        if ($request->hasFile('image')) {
-            $productImage = $request->file('image');
-
+        // Handle image upload for new images, if provided
+        if ($request->hasFile('new_images')) {
             // Create directory if it doesn't exist
             $directory = public_path('images/products/' . $productName);
             if (!file_exists($directory)) {
                 mkdir($directory, 0777, true);
             }
 
-            // Store image in the product's directory
-            $imageDirectory = "images/products/$productName";
-            $imagePath = "images/products/$productName/{$productImage->getClientOriginalName()}";
-            Storage::disk('public')->put($imagePath, file_get_contents($productImage));
-            $validatedData['image'] = $imageDirectory;
+            foreach ($request->file('new_images') as $newImage) {
+                $imageName = $newImage->getClientOriginalName();
+                $newImagePath = "images/products/$productName/$imageName";
+                $newImage->move(public_path("images/products/$productName"), $imageName);
+                // Add the new image to the product's directory
+            }
         }
 
         // Update product details
@@ -194,23 +195,15 @@ class AdminController extends Controller
                 $imagePath = public_path($product->image . '/' . $imageName);
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
+                    // Remove the image from the product's directory
                 }
             }
         }
 
-        // Handle uploading of new images
-        if ($request->hasFile('new_images')) {
-            $newImages = $request->file('new_images');
-            foreach ($newImages as $newImage) {
-                $imagePath = $newImage->store('images/products/' . $productName, 'public');
-            }
-        }
-
-        //$product->update(['gender' => $request->gender]);
-
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
