@@ -1,10 +1,9 @@
 <div class="parent">
     <div class="firstchild">
-        <div class="centering" style="display: flex;">
-            <img src="" id ="the_picture" alt="picture" height="auto" width="100%">
+        <div class="centering" style="display: flex; max-width: 400px; margin-left: 10%; margin-right: 10%;">
+            <img src="" id ="the_picture" alt="picture" height="auto" width="100%" style="min-height:400px; max-height: 400px; ">
         </div>
         <div class="centering" style="background-color: white; padding-bottom: 10px; display: flex; width: 100%; text-align: center;">
-
             <div id="leftarrow" style="width: 33.33%; background-color: #ffdc68; margin-left: 5%; text-align: center; padding-top: 5px; border-radius: 10px">
                 <h6 style="transform: rotate(180deg); cursor: pointer; padding: 0;">&#10148</h6>
             </div>
@@ -13,13 +12,12 @@
                 <span class="dot"></span>
                 <span class="dot"></span>
             </div>
-            <div id="rightarrow" style="width: 33.33%; background-color: #ffdc68; margin-right: 5%; text-align: center; padding-top: 5px; border-radius: 10px;">
+            <div id="rightarrow" style="width: 33.33%; background-color: #ffdc68; margin-right: 5%; text-align: center; padding-top: 5px;  border-radius: 10px;">
                 <h6 style="cursor: pointer; padding: 0;">&#10148</h6>
             </div>
-
         </div>
     </div>
-    <div class="secondchild">
+    <div class="secondchild" style="margin-top: 50px;">
         <div class="justify" style="display: flex; gap: 20px;">
             <div style="width: 90px; height: 50px;">
                 <img src="" id ="the_logo" alt="picture" height="auto" width="100%" style="padding-top: 5px;">
@@ -80,7 +78,33 @@
             </div>
         </div>
         <div style="margin-top: 20px; text-align: center">
-            <button class="button">Pridať do košíka</button>
+            <form action="{{ route('item.cart') }}" method="POST" id="myform" enctype="multipart/form-data">
+                @csrf
+                    <input style="display: none;" type="number" id="cart_id" name="cart_id" step="1" min="1" required>
+                    <input style="display: none;" type="number" name="product_id" id="product_id" step="1" min="1" required>
+                    <input style="display: none;" type="text" name="size" id="size" required>
+
+                    <script type="text/javascript">
+
+                        function submitform(){
+                            <?php
+                                use Illuminate\Support\Facades\Auth;
+                                if (Auth::check()) {
+                                    $userId = Auth::id();
+                                    $user = Auth::user();
+                                    $userId = $user->id;
+                                }
+                            ?>
+                            document.getElementById("cart_id").value = {{$userId}};
+                            document.getElementById("product_id").value = {{ $product['id'] }};
+                            document.getElementById("size").value = document.getElementsByClassName("checkNEW")[0].textContent;
+                            document.getElementById("myform").submit();
+                        }
+
+                     </script>
+
+                <button onclick="submitform()" class="button">Pridať do košíka</button>
+            </form>
         </div>
     </div>
 </div>

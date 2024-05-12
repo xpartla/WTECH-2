@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartProduct;
 use App\Models\Product;
+use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use function Laravel\Prompts\alert;
 
 class ItemController extends Controller
 {
@@ -21,7 +25,6 @@ class ItemController extends Controller
      */
     public function show(string $id)
     {
-        // Return the view that displays the specific item identified by $id
         $product = Product::with('colors', 'sizes', 'categories')->find($id);
 
         // Fetch file paths for each product
@@ -48,7 +51,18 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request data
+        $validatedData = $request->validate([
+            'cart_id' => 'required|numeric|min:0',
+            'product_id' => 'required|numeric|min:0',
+            'size' => 'required|string'
+        ]);
+
+        // Create a new product record
+        CartProduct::create($validatedData);
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Product created successfully.');
     }
 
     /**

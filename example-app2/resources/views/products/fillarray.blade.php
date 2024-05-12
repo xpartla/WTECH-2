@@ -23,7 +23,7 @@
         @endforeach
 
         filePaths = {!! $filePathsJson !!};
-        firstFilePath = ((filePaths["{{ $product['id'] }}"][0]).split("public/"))[1]
+        firstFilePath = '/' + ((filePaths["{{ $product['id'] }}"][0]).split("public/"))[1]
 
 
          single_record = {
@@ -39,6 +39,7 @@
                 subcategory: final_subcategories,
                 brand: '{{$product->brands}}'.split('&quot;:&quot;')[1].split("&")[0]
             };
+        console.log(firstFilePath);
         all_records.push(single_record);
     @endforeach
     // Printing the passed directory elements

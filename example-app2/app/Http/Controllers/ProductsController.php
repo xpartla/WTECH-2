@@ -47,9 +47,21 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $products = Product::with('colors', 'sizes', 'categories', 'subcategories', 'brands')->get();
+
+        // Fetch file paths for each product
+        $filePaths = [];
+        foreach ($products as $product) {
+            $folderPath = public_path($product->image);
+            $filePaths[$product->id] = $this->getAllFilePaths($folderPath);
+        }
+
+        // Convert the PHP array to a JSON string
+        $filePathsJson = json_encode($filePaths);
+
+        return view('products.index', compact('products', 'filePathsJson', 'id'));
     }
 
     /**

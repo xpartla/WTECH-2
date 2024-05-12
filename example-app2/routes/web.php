@@ -76,6 +76,11 @@ Route::put('/cart/{id}', [CartController::class, 'update'])->name('cart.update')
 // checkout
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
-//orders
+// main navigacia
+Route::put('/products/{id}', [ProductsController::class, 'show'])->name('products.lol');
+
+//add item to cart
+Route::post('/item/cart', [ItemController::class, 'store'])->name('item.cart');
+
 
 require __DIR__.'/auth.php';
