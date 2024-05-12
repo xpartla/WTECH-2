@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="category">Category</label>
+                    <label for="category">Kategória</label>
                     <select class="form-control" id="category" name="category_id[]" multiple>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="subcategory">Subcategory</label>
+                    <label for="subcategory">Podkategoória</label>
                     <select class="form-control" id="subcategory" name="subcategory_id[]" multiple>
                         @foreach ($subcategories as $subcategory)
                             <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
@@ -44,13 +44,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="new-images">Add New Images</label>
-                    <input type="file" class="form-control" id="new-images" name="images[]" multiple>
+                    <label for="image">Obrázky</label>
+                    <input type="file" class="form-control" id="image" name="image[]" multiple>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="brand">Brand</label>
+                    <label for="brand">Značka</label>
                     <select class="form-control" id="brand" name="brand_id">
                         @foreach ($brands as $brand)
                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -64,7 +64,7 @@
             <!-- Product Sizes -->
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="sizes">Sizes</label><br>
+                    <label for="sizes">Veľkosti</label><br>
                     @foreach ($sizes as $size)
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="size{{ $size->id }}" name="sizes[]" value="{{ $size->id }}">
@@ -77,7 +77,7 @@
             <!-- Product Colors -->
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="colors">Colors</label><br>
+                    <label for="colors">Farby</label><br>
                     @foreach ($colors as $color)
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="color{{ $color->id }}" name="colors[]" value="{{ $color->id }}">
@@ -89,7 +89,7 @@
 
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="gender">Gender</label><br>
+                    <label for="gender">Pohlavie</label><br>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" id="male" name="gender" value="male">
                         <label class="form-check-label" for="male">Male</label>

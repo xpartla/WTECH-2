@@ -5,20 +5,20 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group">
-                        <label for="email">Email address</label>
+                        <label for="email">E-mail</label>
                         <input type="email" class="form-control" id="email" name="email" required autofocus autocomplete="username">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password">Heslo</label>
                         <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
-                    <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Prihlásiť') }}</button>
                 </form>
-                <p class="loginSubText"> Do not have an account yet?</p>
+                <p class="loginSubText"> Ešte nemáte účet?</p>
                 @if (Route::has('password.request'))
-                <a type="button" role="button" href="{{ route('register') }}" class="btn btn-secondary">Go to register page</a>
+                <a type="button" role="button" href="{{ route('register') }}" class="btn btn-secondary">Zaregistrujte sa</a>
                 @endif
             </div>
         </div>

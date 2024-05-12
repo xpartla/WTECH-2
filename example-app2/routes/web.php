@@ -31,6 +31,7 @@ Route::resource('signup2', SignupController::class);
 Route::resource('products', ProductsController::class);
 Route::resource('item', ItemController::class);
 Route::resource('about', AboutController::class);
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::resource('orders', OrderController::class);
 
 
@@ -41,7 +42,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('main.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

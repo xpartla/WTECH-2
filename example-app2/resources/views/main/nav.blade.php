@@ -24,10 +24,8 @@
                             </form>
                         </li>
                         <li>
-                            <form method="POST" action="{{ route('orders.index') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item btn btn-info">Objednávky</button>
-                            </form>
+                            <a href="{{ route('orders.index') }}" class="dropdown-item btn btn-info">Objednávky</a>
+
                         </li>
                     </ul>
                 </li>

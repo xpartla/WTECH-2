@@ -49,7 +49,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Allow multiple images
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'gender' => 'required|in:male,female,kids',
@@ -57,25 +57,28 @@ class AdminController extends Controller
 
         $validatedData['gender'] = $request->input('gender');
 
-        // Create directory if it doesn't exist
-        $productName = Str::slug($validatedData['name']); // Generate slug from product name
-        $directory = public_path("images/products/$productName");
-        if (!file_exists($directory)) {
-            mkdir($directory, 0777, true);
-        }
-
         // Handle image upload, if provided
-        $imagePaths = [];
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = $image->getClientOriginalName();
-                $imagePath = "images/products/$productName/$imageName"; // Path relative to public directory
-                $image->move(public_path("images/products/$productName"), $imageName); // Move image to public directory
+        if ($request->hasFile('image')) {
+            $productName = Str::slug($validatedData['name']); // Generate slug from product name
+
+            // Create directory if it doesn't exist
+            $directory = public_path("images/products/$productName");
+            if (!file_exists($directory)) {
+                mkdir($directory, 0777, true);
+            }
+
+            // Store each image in the product's directory
+            $imagePaths = [];
+            foreach ($request->file('image') as $index => $productImage) {
+                $imageName = $productImage->getClientOriginalName();
+                $imagePath = "images/products/$productName/{$index}_{$imageName}";
+                $productImage->move($directory, $imagePath); // Move the image to the destination directory
                 $imagePaths[] = $imagePath;
             }
+            $imageDirectory = "images/products/$productName";
+            $validatedData['image'] = $imageDirectory;
         }
 
-        $validatedData['images'] = $imagePaths;
 
         // Create a new product record
         $product = Product::create($validatedData);
@@ -95,6 +98,8 @@ class AdminController extends Controller
         if ($request->has('colors')) {
             $product->colors()->attach($request->colors);
         }
+
+        //$product->update(['gender' => $request->gender]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product created successfully.');
@@ -131,59 +136,68 @@ class AdminController extends Controller
     {
         // Find the product by its ID
         $product = Product::findOrFail($id);
-        // Get the product name
-        $productName = Str::slug($product->name); // Generate slug from product name
+        $productName = Str::slug($product->name);
 
-        // Validate the request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'gender' => 'required|in:male,female,kids',
-        ]);
 
-        $validatedData['gender'] = $request->input('gender');
+        // Update product details without validation
+        $product->name = $product->name; // Keep the name unchanged
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->gender = $request->input('gender');
 
         // Handle image upload for new images, if provided
-        if ($request->hasFile('new_images')) {
-            // Create directory if it doesn't exist
-            $directory = public_path('images/products/' . $productName);
+        if ($request->hasFile('image')) {
+            // Use existing product name for directory
+            $directory = public_path("images/products/$productName");
             if (!file_exists($directory)) {
                 mkdir($directory, 0777, true);
             }
 
-            foreach ($request->file('new_images') as $newImage) {
-                $imageName = $newImage->getClientOriginalName();
-                $newImagePath = "images/products/$productName/$imageName";
-                $newImage->move(public_path("images/products/$productName"), $imageName);
-                // Add the new image to the product's directory
+            // Store each image in the product's directory
+            $imagePaths = [];
+            foreach ($request->file('image') as $index => $productImage) {
+                $imageName = $productImage->getClientOriginalName();
+                $imagePath = "images/products/$productName/{$index}_{$imageName}";
+                $productImage->move($directory, $imagePath); // Move the image to the destination directory
+                $imagePaths[] = $imagePath;
             }
+
+            // Add new image paths to the product
+            $imageDirectory = "images/products/$productName";
+            $product->image = $imageDirectory;
         }
 
-        // Update product details
-        $product->update($validatedData);
+        // Update product details in the database
+        $product->save();
 
-        // Detach old sizes, categories, and colors
+        // Detach old sizes, categories, subcategories, and colors
         $product->sizes()->detach();
         $product->categories()->detach();
-        $product->colors()->detach();
         $product->subcategories()->detach();
         $product->brands()->detach();
+        $product->colors()->detach();
 
-        // Attach the newly selected sizes to the product
+        // Attach the selected sizes to the product
         if ($request->has('sizes')) {
             $product->sizes()->attach($request->sizes);
         }
 
-        // Attach the newly selected categories to the product
-        $product->categories()->attach($request->category_id);
+        // Attach the selected categories to the product
+        if ($request->has('category_id')) {
+            $product->categories()->attach($request->category_id);
+        }
 
-        $product->subcategories()->attach($request->subcategory_id);
+        // Attach the selected subcategories to the product
+        if ($request->has('subcategory_id')) {
+            $product->subcategories()->attach($request->subcategory_id);
+        }
 
-        $product->brands()->attach($request->brand_id);
+        // Attach the selected brands to the product
+        if ($request->has('brand_id')) {
+            $product->brands()->attach($request->brand_id);
+        }
 
-        // Attach the newly selected colors to the product
+        // Attach the selected colors to the product
         if ($request->has('colors')) {
             $product->colors()->attach($request->colors);
         }
@@ -192,7 +206,7 @@ class AdminController extends Controller
         if ($request->has('remove_images')) {
             $imagesToRemove = $request->remove_images;
             foreach ($imagesToRemove as $imageName) {
-                $imagePath = public_path($product->image . '/' . $imageName);
+                $imagePath = public_path("images/products/$productName/$imageName");
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
                     // Remove the image from the product's directory
@@ -203,6 +217,9 @@ class AdminController extends Controller
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Product updated successfully.');
     }
+
+
+
 
 
     /**
