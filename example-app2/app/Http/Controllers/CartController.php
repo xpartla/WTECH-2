@@ -168,7 +168,7 @@ class CartController extends Controller
         foreach ($cartProducts as $cartProduct) {
             $cartProduct->delete();
         }
-        $cart->delete();
+        //$cart->delete();
 
         return redirect()->route('main.index')->with('success', 'Order placed successfully!');
     }
