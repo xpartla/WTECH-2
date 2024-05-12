@@ -4,7 +4,10 @@
 
             <div class="subcategories" style="width: 90%;">
                 <div class="mobilecategory">
-                    <h5 class="spaced_categories marked" onclick="select_highlighted(this, 'spaced_categories')">Doplnky</h5>
+                    <h5 class="spaced_categories marked" onclick="select_highlighted(this, 'spaced_categories')">Všetko</h5>
+                </div>
+                <div class="mobilecategory">
+                    <h5 class="spaced_categories" onclick="select_highlighted(this, 'spaced_categories')">Doplnky</h5>
                     <h5 class="spaced_categories" onclick="select_highlighted(this, 'spaced_categories')">Oblečenie</h5>
                 </div>
                 <div class="mobilecategory">

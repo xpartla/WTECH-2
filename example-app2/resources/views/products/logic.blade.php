@@ -186,32 +186,36 @@ function filterProducts() {
         return (tmp_gender === gender);
     });
 
+
     //category
-    filteredProducts = filteredProducts.filter(product => {
-        let tmp_category = '';
-        @foreach($products as $product)
+    if (category !== "Všetko"){
+        filteredProducts = filteredProducts.filter(product => {
+            let tmp_category = '';
+            @foreach($products as $product)
             if (Number({{ $product['id'] }}) === Number(product.id)){
                 @foreach($product->categories as $category)
                     tmp_category = ('{{ $category->name }}')
                 @endforeach
             }
-        @endforeach
-        return (category === tmp_category);
-    });
+            @endforeach
+                return (category === tmp_category);
+        });
+    }
 
     //subcategory
-    filteredProducts = filteredProducts.filter(product => {
-        let tmp_subcategory = [];
-        @foreach($products as $product)
-        if (Number({{ $product['id'] }}) === Number(product.id)){
-            @foreach($product->subcategories as $subcategory)
+    if (subcategory !== "Všetko"){
+        filteredProducts = filteredProducts.filter(product => {
+            let tmp_subcategory = [];
+            @foreach($products as $product)
+            if (Number({{ $product['id'] }}) === Number(product.id)){
+                @foreach($product->subcategories as $subcategory)
                 tmp_subcategory.push('{{ $subcategory->name }}')
+                @endforeach
+            }
             @endforeach
-        }
-        @endforeach
-        console.log(tmp_subcategory + ' = ' + subcategory + ' --> ' + tmp_subcategory.includes(subcategory))
-        return (tmp_subcategory.includes(subcategory));
-    });
+            return (tmp_subcategory.includes(subcategory));
+        });
+    }
 
 
     //sort
@@ -238,15 +242,14 @@ function filterProducts() {
     }
 
     let multiplier = paginate(pages);
-    if (multiplier === 0)
-        multiplier = 1;
-    pagination_check = 0;
-
+    if (multiplier === 0) multiplier = 1;
     let x = (multiplier * 6)-6;
     let y = (multiplier*6);
     filteredProducts = filteredProducts.slice(x,y);
 
-    // Render filtered products
+    pagination_check = 0;
+
+    //Render filtered products
     renderProducts(filteredProducts);
 }
 
